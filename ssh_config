@@ -1,0 +1,13 @@
+
+# Link this file to ~/.ssh/config
+
+Host *
+# This sends a packet every 60 seconds if there's no activity.  It's
+# necessary because the new Linksys WRT54G router cuts off connections
+# after 10 minutes of inactivity.
+    ServerAliveInterval 60
+	ForwardAgent yes
+	KeepAlive yes
+
+Host *.moa
+	ProxyCommand ssh shell.moa.onlive.net nc %h %p

@@ -1,0 +1,18 @@
+xterm*colorBDMode:      false
+xterm*colorBD:          #ffff80
+xterm*foreground:       white
+xterm*background:       black
+
+xterm*color1:           #ffb0b0
+xterm*color2:           #b0ffb0
+xterm*color3:           #ffffb0
+xterm*color4:           #b0b0ff
+xterm*color5:           #ffb0ff
+xterm*color6:           #b0ffff
+
+xterm*color9:           #ffb0b0
+xterm*color10:          #b0ffb0
+xterm*color11:          #ffffb0
+xterm*color12:          #b0b0ff
+xterm*color13:          #ffb0ff
+xterm*color14:          #b0ffff
