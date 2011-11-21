@@ -1,0 +1,19 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+PROMPT_COMMAND=~/.bash_prompt
+export PS1='[\h]$ '
+set -o vi
+
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+[ -d /usr/java/default/bin ] && export PATH=/usr/java/default/bin:$PATH
+[ -d ~/bin ] && export PATH=~/bin:$PATH
+
+# Insert local python lib into PYTHONPATH
+[ -d ~/lib/python ] && \
+    export PYTHONPATH=~/lib/python:/usr/local/bin
+

@@ -1,0 +1,10 @@
+case $TERM in
+    xterm*)
+        echo -ne "\033]0;${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"
+        ;;
+    screen)
+        echo -ne "\033_${HOSTNAME%%.*}:${PWD/#$HOME/~}\033\\"
+        ;;
+    *) 
+        ;;
+esac

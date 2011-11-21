@@ -1,0 +1,9 @@
+# .bash_profile
+
+[ -f ~/.bash_functions ] && . ~/.bash_functions
+[ -f ~/.bashrc ] && . ~/.bashrc
+
+export GNOME_KEYRING_ENV_FILE="$HOME/.gnome-keyring-env"
+[ -f $GNOME_KEYRING_ENV_FILE ] && source $GNOME_KEYRING_ENV_FILE
+
+alias ls='ls --file-type'
