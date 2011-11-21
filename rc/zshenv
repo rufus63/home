@@ -13,6 +13,16 @@ function rscreen()
     chpwd
 }
 
+function rmux()
+{
+    if (( $# != 1 )); then
+        echo "Usage: rmux <hostname>" 2>&1
+        return 2
+    fi
+    ssh $1 -t tmux attach -d
+    chpwd
+}
+
 # add element to path if it exists, returning 0 on success or 1 on failure
 function add_to_path()
 {
@@ -57,18 +67,7 @@ add_to_path /usr/local/mysql/bin
 add_to_path /sbin
 add_to_path /usr/sbin
 
-if host build-netapp02a.onlive.com > /dev/null; then
-    # Do not add to path unless NFS server is alive
-    add_to_path /share/onlive/dist/3rdParty/tools/apache-ant/1.7.1/noarch/bin
-fi
-
 PYTHONPATH=""
-
-# OnLive dev host:
-if [ -d $HOME/ol/tools/trunk ]; then
-    export OL_SHARE_TOOLS=$HOME/ol/tools/trunk
-    export PYTHONPATH="$OL_SHARE_TOOLS/devtools/lib/python:$PYTHONPATH"
-fi
 
 if [ -d $HOME/lib/python ]; then
     export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
