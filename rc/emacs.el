@@ -37,6 +37,13 @@
 (global-set-key "\M-?" 'etags-select-find-tag-at-point)
 (global-set-key "\M-." 'etags-select-find-tag)
 
+(add-hook 'java-mode-hook
+          (lambda ()
+            "Treat Java 1.5 @-style annotations as comments."
+            (setq c-comment-start-regexp "(@|/(/|[*][*]?))")
+            (modify-syntax-entry ?@ "< b" java-mode-syntax-table)))
+
+
 (defun jds-find-tags-file ()
   "recursively searches each parent directory for a file named 'TAGS' and returns the
 path to that file or nil if a tags file is not found. Returns nil if the buffer is
