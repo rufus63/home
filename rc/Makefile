@@ -1,4 +1,4 @@
-TEMPLATE_SETUP?=${HOME}/.template-setup
+TEMPLATE_SETUP?=${HOME}/home/template_setup
 
 build:: gitconfig
 
