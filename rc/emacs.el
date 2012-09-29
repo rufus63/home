@@ -23,16 +23,16 @@
 (add-to-list 'load-path "~/github/scala-dist/tool-support/src/emacs")
 (require 'scala-mode-auto)
 
-(load-file "~/rc/emacs.d/thrift.el")
+(load-file "~/.emacs.d/thrift.el")
 (require 'thrift-mode)
 
-(load-file "~/rc/emacs.d/etags-table.el")
+(load-file "~/.emacs.d/etags-table.el")
 (require 'etags-table)
 (setq etags-table-search-up-depth 10)
 
 ;;BEGIN From http://www.emacswiki.org/emacs/EtagsSelect
 ;;load the etags-select.el source code
-(load-file "~/rc/emacs.d/etags-select.el")
+(load-file "~/.emacs.d/etags-select.el")
 ;;binding the key
 (global-set-key "\M-?" 'etags-select-find-tag-at-point)
 (global-set-key "\M-." 'etags-select-find-tag)
