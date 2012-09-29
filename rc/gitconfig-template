@@ -1,0 +1,70 @@
+#!/bin/env python
+
+import os
+import sys
+
+CONFIG = '''
+[user]
+  email = {email}
+  name = Mike Kelley
+[color]
+  ui = auto
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[color]
+  ui = true
+[color "diff"]
+  whitespace = red reverse
+[core]
+  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+[alias]
+  st = status
+  ci = commit
+  br = branch
+  co = checkout
+  lg = log -p
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ls = ls-files
+
+  # Show files ignored by git:
+  ign = ls-files -o -i --exclude-standard
+'''
+
+def parse_keywords(args):
+  kwargs = {}
+  while args:
+    if args[0].startswith("-D"):
+      assignment = args.pop(0)[2:]
+      key, value = assignment.split("=", 1)
+      kwargs[key] = value
+    elif args[0] == "-i":
+      args.pop(0)
+      script = args.pop(0)
+      execfile(script, globals(), locals())
+  return args, kwargs
+
+def main():
+  args, kwargs = parse_keywords(sys.argv[1:])
+  if args:
+    raise ValueError("Unexpected argument(s)")
+  print CONFIG.strip().format(**kwargs)
+
+if __name__ == "__main__":
+  try:
+    main()
+  except KeyboardInterrupt:
+    pass
+  except KeyError, e:
+    print >> sys.stderr, "%s is undefined" % e
+    sys.exit(1)
+  except BaseException, e:
+    print >> sys.stderr, e
+    sys.exit(1)
