@@ -8,7 +8,6 @@
  '(delete-selection-mode t)
  '(global-linum-mode t)
  '(indent-tabs-mode nil)
- '(python-indent 2)
  '(show-paren-mode t)
  '(standard-indent 2)
  '(tab-width 2))
@@ -43,6 +42,9 @@
             (setq c-comment-start-regexp "(@|/(/|[*][*]?))")
             (modify-syntax-entry ?@ "< b" java-mode-syntax-table)))
 
+(add-to-list 'load-path "~/share/python-mode.el-6.0.12/")
+(setq py-install-directory "~/share/python-mode.el-6.0.12/")
+(require 'python-mode)
 
 (defun jds-find-tags-file ()
   "recursively searches each parent directory for a file named 'TAGS' and returns the
