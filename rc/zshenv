@@ -9,19 +9,33 @@ function rscreen()
         echo "Usage: rscreen <hostname>" 2>&1
         return 2
     fi
-    ssh $1 -t screen -r
+    ssh $1 -t screen -d -R
     chpwd
 }
 
-function rmux()
+function rtmux()
 {
     if (( $# != 1 )); then
         echo "Usage: rmux <hostname>" 2>&1
         return 2
     fi
-    ssh $1 -t tmux attach -d
+    ssh -t $1 "(tmux has-session && tmux attach -d) || tmux new-session"
     chpwd
 }
+
+function tcmd()
+{
+    if (($# == 0)); then
+        echo "Usage: tcmd [-o output] cmd ..." 2>&1
+        return 1
+    fi
+    local outfile=/tmp/$(python -c 'import sys, urllib; print urllib.quote(" ".join(sys.argv[1:]))', $@).out
+    mkdir -p $(dirname $outfile)
+    cmd=$1
+    shift
+    $cmd "$@" 2>&1 | tee ${outfile}
+}
+
 
 # add element to path if it exists, returning 0 on success or 1 on failure
 function add_to_path()
@@ -58,20 +72,38 @@ function prepend_to_path()
 prepend_to_path ~/usr/bin
 
 # Use CollabNet svn that is keyring aware. This goes before /usr/bin.
-prepend_to_path /opt/CollabNet_Subversion/bin
+#prepend_to_path /opt/CollabNet_Subversion/bin
 
-add_to_path ~/bin
+prepend_to_path /usr/local/bin
+prepend_to_path ~/bin
 add_to_path /usr/java/default/bin
-add_to_path /usr/local/bin
 add_to_path /usr/local/mysql/bin
 add_to_path /sbin
 add_to_path /usr/sbin
 
-PYTHONPATH=""
+# Shopkick requirement
+export DYLD_LIBRARY_PATH=/usr/local/mysql/lib
+
+# Nose configuration
+export NOSE_LOGFORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
+
+#PYTHONPATH=""
+export SKHOME=$HOME/Desktop/trunk
+
+#if [ -r $SKHOME/site-packages/ ]; then
+#    PYTHONPATH="$SKHOME/site-packages:$PYTHONPATH"
+#fi
+
+if [ -d $SKHOME/sandbox/$USER/lib/python ]; then
+    #PYTHONPATH="$SKHOME/sandbox/$USER/lib/python:$PYTHONPATH"
+    add_to_path $SKHOME/sandbox/$USER/scripts
+fi
 
 if [ -d $HOME/lib/python ]; then
-    export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
+    PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
 fi
+
+[ -n "$PYTHONPATH" ] && export PYTHONPATH
 
 # add X11 bin if it exists
 if ! add_to_path /usr/bin/X11; then

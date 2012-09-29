@@ -8,7 +8,7 @@ if [ -z "$SSH_AUTH_SOCK" ] || [ ! -r $SSH_AUTH_SOCK ]; then
 fi
 
 # Make a well-known softlink to the temporary socket so
-# that existing processes (in screen sessions) 
+# that existing processes (in screen sessions)
 # can continue to authenticate
 if [ "$SSH_AUTH_SOCK" != "$HOME/.ssh/auth_sock" ]; then
     ln -sf $SSH_AUTH_SOCK $HOME/.ssh/auth_sock
@@ -49,15 +49,14 @@ ERROR_OUTPUT=/tmp/errors.mk
 # allows "mmv *.c *.cpp", etc.
 alias mmv='noglob zmv -W'
 
-# for "ls" variants
-# MK: command not installed in Mac OS (fink?)
-if type -p dircolors > /dev/null; then
-	eval `dircolors ~/rc/dir_colors`
+# for "ls" variants with coreutils via homebrew
+if type -p gdircolors > /dev/null; then
+	eval `gdircolors ~/rc/dir_colors`
 	LS_OPTIONS=(--classify --color=auto)
-	alias l='command ls ${LS_OPTIONS} -o --human-readable'
-	alias ls='command ls ${LS_OPTIONS}'
+	alias l='command gls ${LS_OPTIONS} -o --human-readable'
+	alias ls='command gls ${LS_OPTIONS}'
 	lt() {
-		command ls ${LS_OPTIONS} --color=always -ot --human-readable $* | head
+		command gls ${LS_OPTIONS} --color=always -ot --human-readable $* | head
 	}
 fi
 
@@ -101,6 +100,11 @@ RED_PROMPT='%{[31;1m%}'
 NORMAL_PROMPT='%{[0m%}'
 
 PROMPT="${YELLOW_PROMPT}%m%#${NORMAL_PROMPT} "
+
+# Shopkick
+#alias activate="cd ~/shopkick/trunk; source ./build/py/bin/activate"
+alias activate="source $SKHOME/build/py/bin/activate"
+alias tunnel="ssh -A -D 8080 bas001"
 
 # put the exit code on the right.  I've disabled this because I never
 # looked at it anyway.  I think RPROMPT stands for "right prompt".
@@ -206,13 +210,21 @@ function title()
     fi
 }
 
-chpwd() {
+function chpwd() {
 	[[ -t 1 ]] || return
+  local prefix="%m" # machine name
+  local branch=$(git symbolic-ref HEAD 2> /dev/null)
+  if [ -n "$branch" ]; then
+    prefix="(${branch##*/}) $prefix"
+  fi
 	case $TERM in
-		sun-cmd) print -Pn "\e]l%~\e\\" ;;
-		*xterm*|rxvt|(dt|k|E)term) print -Pn "\e]2;%m:%~\a" ;;
-		screen) print -Pn "\e_%m:%~\e\\" ;;
+		*xterm*|rxvt|(dt|k|E)term) print -Pn "\e]2;$prefix:%~\a" ;;
+		screen) print -Pn "\e_$prefix:%~\e\\" ;;
 	esac
+}
+
+function git_co {
+  git checkout "$@" && chpwd
 }
 
 cd .

@@ -29,3 +29,7 @@ function share_ssh_auth() {
 function resolve_ip() {
     host $1 | tail -1 | awk '{print $NF}'
 }
+
+function nose() {
+  make -C "$@" nosetest_only
+}
