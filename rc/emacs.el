@@ -11,27 +11,40 @@
  '(show-paren-mode t)
  '(standard-indent 2)
  '(tab-width 2))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Load and configure SLIME
+(add-to-list 'load-path "~/github/slime")
+(require 'slime)
+(eval-after-load 'slime '(setq slime-protocol-version 'ignore))
+(slime-setup '(slime-repl))
+
+;; Load a major mode for editing Clojure code.
+(add-to-list 'load-path "~/github/clojure-mode")
+(require 'clojure-mode)
+(require 'clojure-test-mode) ;; requires slime
 
 (add-to-list 'load-path "~/github/scala-dist/tool-support/src/emacs")
 (require 'scala-mode-auto)
 
-(load-file "~/.emacs.d/thrift.el")
+(load-file "~/rc/emacs.d/thrift.el")
 (require 'thrift-mode)
 
-(load-file "~/.emacs.d/etags-table.el")
+(load-file "~/rc/emacs.d/etags-table.el")
 (require 'etags-table)
 (setq etags-table-search-up-depth 10)
 
 ;;BEGIN From http://www.emacswiki.org/emacs/EtagsSelect
 ;;load the etags-select.el source code
-(load-file "~/.emacs.d/etags-select.el")
+(load-file "~/rc/emacs.d/etags-select.el")
 ;;binding the key
 (global-set-key "\M-?" 'etags-select-find-tag-at-point)
 (global-set-key "\M-." 'etags-select-find-tag)
@@ -45,6 +58,7 @@
 (add-to-list 'load-path "~/share/python-mode.el-6.0.12/")
 (setq py-install-directory "~/share/python-mode.el-6.0.12/")
 (require 'python-mode)
+(setq py-indent-offset 2)
 
 (defun jds-find-tags-file ()
   "recursively searches each parent directory for a file named 'TAGS' and returns the
