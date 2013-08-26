@@ -90,6 +90,8 @@ function run-fg-editor() {
 zle -N run-fg-editor
 bindkey '^Z' run-fg-editor
 
+set -o emacs # emacs command line edit
+
 # don't set cdpath because tab-completion uses it, which sucks:
 # cdpath=($cdpath $HOME $SRCROOT)
 
@@ -100,11 +102,6 @@ RED_PROMPT='%{[31;1m%}'
 NORMAL_PROMPT='%{[0m%}'
 
 PROMPT="${YELLOW_PROMPT}%m%#${NORMAL_PROMPT} "
-
-# Shopkick
-#alias activate="cd ~/shopkick/trunk; source ./build/py/bin/activate"
-alias activate="source $SKHOME/build/py/bin/activate"
-alias tunnel="ssh -A -D 8080 bas001"
 
 # put the exit code on the right.  I've disabled this because I never
 # looked at it anyway.  I think RPROMPT stands for "right prompt".

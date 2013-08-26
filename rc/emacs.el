@@ -22,18 +22,18 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Load and configure SLIME
-(add-to-list 'load-path "~/github/slime")
-(require 'slime)
-(eval-after-load 'slime '(setq slime-protocol-version 'ignore))
-(slime-setup '(slime-repl))
-
-;; Load a major mode for editing Clojure code.
-(add-to-list 'load-path "~/github/clojure-mode")
-(require 'clojure-mode)
-(require 'clojure-test-mode) ;; requires slime
-
-(add-to-list 'load-path "~/github/scala-dist/tool-support/src/emacs")
-(require 'scala-mode-auto)
+;; (add-to-list 'load-path "~/github/slime")
+;; (require 'slime)
+;; (eval-after-load 'slime '(setq slime-protocol-version 'ignore))
+;; (slime-setup '(slime-repl))
+;; 
+;; ;; Load a major mode for editing Clojure code.
+;; (add-to-list 'load-path "~/github/clojure-mode")
+;; (require 'clojure-mode)
+;; (require 'clojure-test-mode) ;; requires slime
+;; 
+;; (add-to-list 'load-path "~/github/scala-dist/tool-support/src/emacs")
+;; (require 'scala-mode-auto)
 
 (load-file "~/rc/emacs.d/thrift.el")
 (require 'thrift-mode)
@@ -55,8 +55,8 @@
             (setq c-comment-start-regexp "(@|/(/|[*][*]?))")
             (modify-syntax-entry ?@ "< b" java-mode-syntax-table)))
 
-(add-to-list 'load-path "~/share/python-mode.el-6.0.12/")
-(setq py-install-directory "~/share/python-mode.el-6.0.12/")
+(add-to-list 'load-path "~/github/emacs.d/alan/python-mode.el-6.0.12/")
+(setq py-install-directory "~/github/emacs.d/alan/python-mode.el-6.0.12/")
 (require 'python-mode)
 (setq py-indent-offset 2)
 

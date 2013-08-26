@@ -81,23 +81,17 @@ add_to_path /usr/local/mysql/bin
 add_to_path /sbin
 add_to_path /usr/sbin
 
+# Pertino
+add_to_path ~/workspace/MasterController/framework/play-1.2.5
+export DATABASE_URL=mysql://mcplay:mchammer@localhost/mcplay
+
 # Shopkick requirement
-export DYLD_LIBRARY_PATH=/usr/local/mysql/lib
+#export DYLD_LIBRARY_PATH=/usr/local/mysql/lib
 
 # Nose configuration
 export NOSE_LOGFORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
 
 #PYTHONPATH=""
-export SKHOME=$HOME/Desktop/trunk
-
-#if [ -r $SKHOME/site-packages/ ]; then
-#    PYTHONPATH="$SKHOME/site-packages:$PYTHONPATH"
-#fi
-
-if [ -d $SKHOME/sandbox/$USER/lib/python ]; then
-    #PYTHONPATH="$SKHOME/sandbox/$USER/lib/python:$PYTHONPATH"
-    add_to_path $SKHOME/sandbox/$USER/scripts
-fi
 
 if [ -d $HOME/lib/python ]; then
     PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
