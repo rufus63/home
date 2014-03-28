@@ -1,1 +1,1 @@
-(load-file "~/rc/emacs.el")
+(load-file "~/rc/emacs.d/init.el")

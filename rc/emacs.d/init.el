@@ -4,13 +4,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (tsdh-light)))
+ '(custom-enabled-themes (quote (tsdh-dark)))
  '(delete-selection-mode t)
  '(global-linum-mode t)
  '(indent-tabs-mode nil)
  '(show-paren-mode t)
- '(standard-indent 2)
- '(tab-width 2))
+ '(standard-indent 4)
+ '(tab-width 4)
+ '(c-basic-offset 4))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -21,22 +22,65 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;;; Steve Yegge's js2-mode
+(add-to-list 'load-path "~/rc/emacs.d/elpa/packages/js2-mode-20140114")
+(autoload 'js2-mode "js2-mode" "Major mode for editing Javascript and JSON." t)
+(add-to-list 'auto-mode-alist '("\\.js(on)?\\'" . js2-mode))
+;; (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
+
+;;; use groovy-mode when file ends in .groovy or has #!/bin/groovy at start
+(add-to-list 'load-path "~/rc/emacs.d/Emacs-Groovy-Mode")
+(autoload 'groovy-mode "groovy-mode" "Major mode for editing Groovy code." t)
+(add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
+(add-to-list 'auto-mode-alist '("\\.groovy\\'" . groovy-mode))
+(add-to-list 'interpreter-mode-alist '("groovy" . groovy-mode))
+
+;;; make Groovy mode electric by default.
+(add-hook 'groovy-mode-hook
+          '(lambda ()
+             (require 'groovy-electric)
+             (groovy-electric-mode)))
+
+;; (add-to-list 'load-path "emacs-starter-kit")
+;; (load-file "~/github/emacs-starter-kit/init.el")
+
+;; Commented out/disabled because delete char wasn't killing
+;; the selected region as expected
+(add-to-list 'load-path "~/rc/emacs.d/auto-indent-mode")
+(require 'auto-indent-mode)
+(setq auto-indent-on-visit-file nil) ;; If you want auto-indent on for files
+;; (auto-indent-global-mode)
+(autoload 'auto-indent-delete-char "auto-indent-mode" "" t)
+;; (define-key global-map [remap delete-char] 'auto-indent-delete-char)
+(autoload 'auto-indent-kill-line "auto-indent-mode" "" t)
+;; (define-key global-map [remap kill-line] 'auto-indent-kill-line)
+
+(add-to-list 'load-path "~/rc/emacs.d/emacs-avro")
+(autoload 'avdl-mode "avdl-mode" "Major mode for editing Avro JSON schemas." t)
+(add-to-list 'auto-mode-alist '("\\.avdl\\'" . avdl-mode))
+;; (require 'avdl-mode)
+
+
+(load-file "~/rc/emacs.d/piglatin-mode/piglatin.el")
+(require 'piglatin-mode)
+
 ;; Load and configure SLIME
 ;; (add-to-list 'load-path "~/github/slime")
 ;; (require 'slime)
 ;; (eval-after-load 'slime '(setq slime-protocol-version 'ignore))
 ;; (slime-setup '(slime-repl))
-;; 
+;;
 ;; ;; Load a major mode for editing Clojure code.
 ;; (add-to-list 'load-path "~/github/clojure-mode")
 ;; (require 'clojure-mode)
 ;; (require 'clojure-test-mode) ;; requires slime
-;; 
+;;
 ;; (add-to-list 'load-path "~/github/scala-dist/tool-support/src/emacs")
 ;; (require 'scala-mode-auto)
 
 (load-file "~/rc/emacs.d/thrift.el")
 (require 'thrift-mode)
+(add-to-list 'auto-mode-alist '("\\.thrift\\'" . thrift-mode))
 
 (load-file "~/rc/emacs.d/etags-table.el")
 (require 'etags-table)
@@ -55,10 +99,10 @@
             (setq c-comment-start-regexp "(@|/(/|[*][*]?))")
             (modify-syntax-entry ?@ "< b" java-mode-syntax-table)))
 
-(add-to-list 'load-path "~/github/emacs.d/alan/python-mode.el-6.0.12/")
-(setq py-install-directory "~/github/emacs.d/alan/python-mode.el-6.0.12/")
+(add-to-list 'load-path "~/rc/emacs.d/python-mode.el-6.1.3/")
+(setq py-install-directory "~/rc/emacs.d/python-mode.el-6.1.3/")
 (require 'python-mode)
-(setq py-indent-offset 2)
+(setq py-indent-offset 4)
 
 (defun jds-find-tags-file ()
   "recursively searches each parent directory for a file named 'TAGS' and returns the

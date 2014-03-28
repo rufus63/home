@@ -9,7 +9,7 @@ function rscreen()
         echo "Usage: rscreen <hostname>" 2>&1
         return 2
     fi
-    ssh $1 -t screen -d -R
+    ssh -At $1 screen -d -R
     chpwd
 }
 
@@ -19,7 +19,7 @@ function rtmux()
         echo "Usage: rmux <hostname>" 2>&1
         return 2
     fi
-    ssh -t $1 "(tmux has-session && tmux attach -d) || tmux new-session"
+    ssh -At $1 "(tmux has-session && tmux attach -d) || tmux new-session"
     chpwd
 }
 

@@ -1,7 +1,7 @@
 (require 'font-lock)
 
 (defvar thrift-mode-hook nil)
-(add-to-list 'auto-mode-alist '("\\.thrift\\'" . thrift-mode))
+;;(add-to-list 'auto-mode-alist '("\\.thrift\\'" . thrift-mode))
 
 (defvar thrift-indent-level 2
   "Defines 2 spaces for thrift indentation.")

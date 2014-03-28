@@ -182,6 +182,9 @@ compctl -/ cd chdir dirs pushd
 # environment variables
 export EDITOR=vim
 export VISUAL=vim
+if [ -x /System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home ]; then
+  export JAVA_HOME=$(/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home)
+fi
 
 #export VIMINIT="source $HOME/vimfiles/vimrc"
 #export GVIMINIT="source $HOME/vimfiles/gvimrc"
@@ -209,7 +212,11 @@ function title()
 
 function chpwd() {
 	[[ -t 1 ]] || return
-  local prefix="%m" # machine name
+  if [ -f ~/.hostname_alias ]; then
+    local prefix=$(< ~/.hostname_alias)
+  else
+    local prefix="%m" # machine name
+  fi
   local branch=$(git symbolic-ref HEAD 2> /dev/null)
   if [ -n "$branch" ]; then
     prefix="(${branch##*/}) $prefix"
