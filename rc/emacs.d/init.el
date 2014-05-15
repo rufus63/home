@@ -11,6 +11,7 @@
  '(show-paren-mode t)
  '(standard-indent 4)
  '(tab-width 4)
+ '(setq ring-bell-function 'ignore)
  '(c-basic-offset 4))
 
 (custom-set-faces

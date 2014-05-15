@@ -36,7 +36,6 @@ function tcmd()
     $cmd "$@" 2>&1 | tee ${outfile}
 }
 
-
 # add element to path if it exists, returning 0 on success or 1 on failure
 function add_to_path()
 {
@@ -83,7 +82,12 @@ add_to_path /usr/sbin
 
 # Pertino
 add_to_path ~/workspace/MasterController/framework/play-1.2.5
-export DATABASE_URL=mysql://mcplay:mchammer@localhost/mcplay
+# Pertino server?
+if [ -f /var/local/prtn/facts.txt ]; then
+  export PRTN_ROLE=$(~/bin/prtn_role)
+  add_to_path ~/bin/as_prtn_role/$PRTN_ROLE
+fi
+
 
 # Shopkick requirement
 #export DYLD_LIBRARY_PATH=/usr/local/mysql/lib
