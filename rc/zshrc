@@ -107,59 +107,9 @@ PROMPT="${YELLOW_PROMPT}%m%#${NORMAL_PROMPT} "
 # looked at it anyway.  I think RPROMPT stands for "right prompt".
 # RPROMPT="%(?..${RED_PROMPT}(%?%)${NORMAL_PROMPT})"
 
-# functions for Kaleidescape
-alias po='p4 opened -c default'
-function grepsrcnow() {
-    if (($# == 0)); then
-        echo "Usage: grepsrcnow <word>"
-        echo "After the grep, type 'e' to edit those files."
-    else
-        CURRENT_PWD=$PWD
 
-        cd $SRCROOT
-        echo "make[1]: Entering directory \`$SRCROOT'" > $ERROR_OUTPUT
-        egrep --line-number $* */*.[ch]pp */*/*.[ch]pp | \
-            tee --append $ERROR_OUTPUT
-        echo "make[1]: Leaving directory \`$SRCROOT'" >> $ERROR_OUTPUT
-
-        cd $CURRENT_PWD
-    fi
-}
-function grepsrc() {
-    if (($# == 0)); then
-        echo "Usage: grepsrc <word>"
-        echo "After the grep, type 'e' to edit those files."
-    else
-        CURRENT_PWD=$PWD
-
-        cd $SRCROOT
-        echo "make[1]: Entering directory \`$SRCROOT'" > $ERROR_OUTPUT
-        egrep $* ALL_LINES | tee --append $ERROR_OUTPUT
-        echo "make[1]: Leaving directory \`$SRCROOT'" >> $ERROR_OUTPUT
-
-        cd $CURRENT_PWD
-    fi
-}
-function grepdir() {
-    if (($# == 0)); then
-        echo "Usage: grepdir <word>"
-        echo "After the grep, type 'e' to edit those files."
-    else
-        echo "make[1]: Entering directory \`$PWD'" > $ERROR_OUTPUT
-        # The (N) means it's okay to not match anything.  The /dev/null
-        # is in case none of them match.
-        egrep --line-number $* *.[ch]pp(N) *.cc(N) *.hh(N) /dev/null | tee --append $ERROR_OUTPUT
-        echo "make[1]: Leaving directory \`$PWD'" >> $ERROR_OUTPUT
-    fi
-}
-
-# functions for developing
-alias e='vi -q'
-ant() {
-    command ant -find build.xml $* |& tee $ERROR_OUTPUT
-
-    # return just the status of "ant", we don't care about the status of "tee"
-    return $pipestatus[0]
+function realpath() {
+  python -c "import os,sys; print os.path.realpath(\"$1\")"
 }
 
 # a more useful version of run-help from the 'functions' directory
@@ -182,23 +132,9 @@ compctl -/ cd chdir dirs pushd
 # environment variables
 export EDITOR=vim
 export VISUAL=vim
-if [ -x /System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home ]; then
-  export JAVA_HOME=$(/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home)
-fi
 
 #export VIMINIT="source $HOME/vimfiles/vimrc"
 #export GVIMINIT="source $HOME/vimfiles/gvimrc"
-
-# to help with SVN commands (e.g., "svn status $SVN_DIRS")
-ALL_SVN_DIRS=(~/rc ~/text ~/bin ~/vimfiles ~/text-private ~/code)
-SVN_DIRS=()
-for i in $ALL_SVN_DIRS
-do
-    if [[ -d $i ]]; then
-        SVN_DIRS=($SVN_DIRS $i)
-    fi
-done
-unset ALL_SVN_DIRS
 
 # Set the Putty window title.
 function title()
@@ -211,7 +147,7 @@ function title()
 }
 
 function chpwd() {
-	[[ -t 1 ]] || return
+  [[ -t 1 ]] || return
   if [ -f ~/.hostname_alias ]; then
     local prefix=$(< ~/.hostname_alias)
   else
@@ -227,8 +163,6 @@ function chpwd() {
 	esac
 }
 
-function git_co {
-  git checkout "$@" && chpwd
-}
+[ -r ~/toolbox/py-tools/bin/activate ] && . ~/toolbox/py-tools/bin/activate
 
 cd .

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if (( $# == 0 )); then
-  echo "usage: $0 hostname [...]"
+  echo "usage: $0 [username@]hostname [...]"
   exit 1
 fi
 cd $(dirname $0)
 for h in "$@"; do
-  echo pushing to host $h
+  echo pushing to $h
   rsync -av --exclude .git --exclude "*~" --exclude push-home . $h:
   ssh $h "echo $h > .hostname_alias"
 done

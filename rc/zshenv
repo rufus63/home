@@ -80,28 +80,14 @@ add_to_path /usr/local/mysql/bin
 add_to_path /sbin
 add_to_path /usr/sbin
 
-# Pertino
-add_to_path ~/workspace/MasterController/framework/play-1.2.5
-# Pertino server?
-if [ -f /var/local/prtn/facts.txt ]; then
-  export PRTN_ROLE=$(~/bin/prtn_role)
-  add_to_path ~/bin/as_prtn_role/$PRTN_ROLE
+[ -x /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home)"
+
+if [ -d /usr/local/Cellar/ec2-api-tools/1.6.13.0/libexec ]; then
+  export EC2_HOME=/usr/local/Cellar/ec2-api-tools/1.6.13.0/libexec
 fi
-
-
-# Shopkick requirement
-#export DYLD_LIBRARY_PATH=/usr/local/mysql/lib
 
 # Nose configuration
-export NOSE_LOGFORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
-
-#PYTHONPATH=""
-
-if [ -d $HOME/lib/python ]; then
-    PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
-fi
-
-[ -n "$PYTHONPATH" ] && export PYTHONPATH
+export PY_LOG_FORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
 
 # add X11 bin if it exists
 if ! add_to_path /usr/bin/X11; then
