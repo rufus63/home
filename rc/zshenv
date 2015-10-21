@@ -16,7 +16,7 @@ function rscreen()
 function rtmux()
 {
     if (( $# != 1 )); then
-        echo "Usage: rmux <hostname>" 2>&1
+        echo "Usage: rtmux <hostname>" 2>&1
         return 2
     fi
     ssh -At $1 "(tmux has-session && tmux attach -d) || tmux new-session"
@@ -73,6 +73,7 @@ prepend_to_path ~/usr/bin
 # Use CollabNet svn that is keyring aware. This goes before /usr/bin.
 #prepend_to_path /opt/CollabNet_Subversion/bin
 
+prepend_to_path $HOME/.gem/ruby/2.0.0/bin
 prepend_to_path /usr/local/bin
 prepend_to_path ~/bin
 add_to_path /usr/java/default/bin
@@ -80,10 +81,17 @@ add_to_path /usr/local/mysql/bin
 add_to_path /sbin
 add_to_path /usr/sbin
 
-[ -x /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home)"
+# Nest
+add_to_path ~/projects/wulfcli/src/bin
+
+[ -x /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
 if [ -d /usr/local/Cellar/ec2-api-tools/1.6.13.0/libexec ]; then
   export EC2_HOME=/usr/local/Cellar/ec2-api-tools/1.6.13.0/libexec
+fi
+
+if [ $SHELL = "/bin/bash" ] && [ -d /usr/local/Cellar/bash-completion2 ] && [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+  . $(brew --prefix)/share/bash-completion/bash_completion
 fi
 
 # Nose configuration
@@ -101,3 +109,6 @@ add_to_path ~/bin/$HOSTNAME
 if (( $+HOSTTYPE )); then
     add_to_path ~/bin/$HOSTTYPE
 fi
+
+[ -r ~/Downloads/avro-tools-1.7.7.jar ] && alias avro='java -jar ~/Downloads/avro-tools-1.7.7.jar'
+[ -r ~/local/py/bin/activate ] && . ~/local/py/bin/activate
