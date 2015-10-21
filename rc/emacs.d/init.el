@@ -1,25 +1,4 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (tsdh-dark)))
- '(delete-selection-mode t)
- '(global-linum-mode t)
- '(indent-tabs-mode nil)
- '(show-paren-mode t)
- '(standard-indent 4)
- '(tab-width 4)
- '(setq ring-bell-function 'ignore)
- '(c-basic-offset 4))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(setq ring-bell-function 'ignore)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -47,7 +26,7 @@
 
 ;; Commented out/disabled because delete char wasn't killing
 ;; the selected region as expected
-(add-to-list 'load-path "~/rc/emacs.d/auto-indent-mode")
+(add-to-list 'load-path "~/rc/emacs.d/auto-indent-mode.el")
 (require 'auto-indent-mode)
 (setq auto-indent-on-visit-file nil) ;; If you want auto-indent on for files
 ;; (auto-indent-global-mode)
@@ -61,9 +40,6 @@
 (add-to-list 'auto-mode-alist '("\\.avdl\\'" . avdl-mode))
 ;; (require 'avdl-mode)
 
-
-(load-file "~/rc/emacs.d/piglatin-mode/piglatin.el")
-(require 'piglatin-mode)
 
 ;; Load and configure SLIME
 ;; (add-to-list 'load-path "~/github/slime")
@@ -100,8 +76,9 @@
             (setq c-comment-start-regexp "(@|/(/|[*][*]?))")
             (modify-syntax-entry ?@ "< b" java-mode-syntax-table)))
 
-(add-to-list 'load-path "~/rc/emacs.d/python-mode.el-6.1.3/")
-(setq py-install-directory "~/rc/emacs.d/python-mode.el-6.1.3/")
+;; See https://marmalade-repo.org/packages/python-mode
+(add-to-list 'load-path "~/rc/emacs.d/python-mode-6.1.3/")
+(setq py-install-directory "~/rc/emacs.d/python-mode-6.1.3/")
 (require 'python-mode)
 (setq py-indent-offset 4)
 
