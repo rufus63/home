@@ -1,0 +1,1 @@
+. ~/rc/bash_profile

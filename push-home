@@ -4,12 +4,20 @@ if (( $# == 0 )); then
   echo "usage: $0 [username@]hostname [...]"
   exit 1
 fi
-cd $(dirname $0)
 for h in "$@"; do
-  echo pushing to $h
-  rsync -av --exclude .git --exclude "*~" --exclude push-home . $h:
-  [ -r ~/.nestrc ] && rsync ~/.nestrc $h:
-  if true || [ ssh $h test -r /bin/zsh ]; then
+  echo pushing ~/home to $h
+  if [ -r ~/.nestrc ]; then
+    echo $HOME/.nestrc ..
+    rsync -v ~/.nestrc $h:
+  fi
+  echo $HOME/template ..
+  rsync -av --exclude .git --exclude "*~" ~/home/template/ $h:
+
+  # We delete anything in ~/rc and ~/.oh-my-zsh that aren't local
+  echo $HOME/rc ..
+  rsync -av --exclude .git --exclude "*~" --delete ~/home/rc $h:
+  if ssh $h test -r /bin/zsh; then
+    echo $HOME/.oh-my-zsh ..
     rsync -av --exclude .git --exclude "*~" --delete ~/.oh-my-zsh $h:
   fi
 done
