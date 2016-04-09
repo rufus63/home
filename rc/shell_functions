@@ -1,0 +1,43 @@
+# Functions and aliases that work in both bash and zsh
+# Platform specific functions included at the end
+# (darwin_functions on Mac, linux_functions on linux).
+
+function rtmux() {
+  if (( $# != 1 )); then
+    echo "Usage: rtmux <hostname>" 2>&1
+    return 1
+  fi
+  local hostname=$1
+  ssh -At $hostname "tmux at || tmux new"
+  refresh_window_title
+}
+
+# From oh-my-zsh/themes/fishy-theme.zsh
+function fishy_cwd() {
+  echo $(pwd | perl -pe "
+   BEGIN {
+      binmode STDIN,  ':encoding(UTF-8)';
+      binmode STDOUT, ':encoding(UTF-8)';
+   }; s|^$HOME|~|g; s|/([^/])[^/]*(?=/)|/\$1|g
+")
+} 
+
+function realpath() {
+  python -c "import os,sys; print os.path.realpath(\"$1\")"
+}
+
+function resolve_ip() {
+    host $1 | tail -1 | awk '{print $NF}'
+}
+
+# Contents of ~/.hostname_alias if it exists else FQDN
+function refresh_window_title() {
+  local host="%M"
+  [ -r ~/.hostname_alias ] && host=$(< ~/.hostname_alias)
+  set_window_title "${USER}@${host}:%~"
+}
+
+case $OSTYPE in
+  darwin*) . ~/rc/darwin_functions;;
+  linux*) . ~/rc/linux_functions;;
+esac

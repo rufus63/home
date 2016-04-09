@@ -1,12 +1,12 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/mikekelley/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="minimal"
+ZSH_THEME="rufus-fishy"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -36,28 +36,51 @@ ZSH_THEME="minimal"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+# HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM=~/rc/omz-custom
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git mvn python tmux pj gradle virtualenv brew)
+[ -r ~/.ssh/id_rsa ] && plugins+=ssh-agent
+
+pypathdirs=(~/projects/mikekelley/src/main/python)
 
 # User configuration
+pathdirs=(
+  ~/bin
+  ~/local/py/bin
+  ~/projects/gcp/yes/google-cloud-sdk/bin
+  ~/projects/mikekelley/src/main/python/scripts
+  ~/projects/wulfcli/src/bin
+  ~/.gem/ruby/2.0.0/bin
+  /usr/local/git/current/bin
+  /usr/local/bin
+  /usr/bin
+  /bin
+  /usr/local/sbin
+  /usr/sbin
+  /sbin
+  /opt/X11/bin
+  /usr/X11R6/bin
+)
 
-export PATH="/Users/mikekelley/local/py/bin:/Users/mikekelley/bin:/usr/local/bin:/Users/mikekelley/.gem/ruby/2.0.0/bin:/usr/local/git/current/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/X11/bin:/Users/mikekelley/projects/wulfcli/src/bin:/usr/X11R6/bin:/Users/mikekelley/bin/mikekelley-macbookpro"
+path=($^pathdirs(N-/))
+# Don't know why I have to prepend this separately; variable eval is tricky :P
+[[ -d ~/bin/$HOSTNAME ]] && path=(~/bin/$HOSTNAME $path)
+
+export PYTHONPATH=$(echo ${pypathdirs[@]} | tr ' ' ':')
+
 # export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -74,6 +97,9 @@ source $ZSH/oh-my-zsh.sh
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+source ~/rc/zshrc
+source $ZSH/oh-my-zsh.sh
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

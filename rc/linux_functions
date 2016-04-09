@@ -1,0 +1,4 @@
+eval $(dircolors ~/rc/dir_colors)
+LS_OPTIONS="--classify --color=auto"
+alias l='ls ${LS_OPTIONS} -o --human-readable'
+alias ls='ls ${LS_OPTIONS}'

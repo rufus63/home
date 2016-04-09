@@ -1,19 +1,19 @@
 # .bashrc
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+#if [ -f /etc/bashrc ]; then
+#	. /etc/bashrc
+#fi
 
-PROMPT_COMMAND=~/.bash_prompt
-export PS1='[\h]$ '
-set -o vi
+if [ -n "$PS1" ]; then
+  PROMPT_COMMAND='PS1="$(date +'[%H:%M:%S]') $(fishy_cwd):bash-> "; refresh_window_title'
+  set -o emacs
+fi
 
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 [ -d /usr/java/default/bin ] && export PATH=/usr/java/default/bin:$PATH
+[ -d /usr/local/java/bin ] && export PATH=/usr/local/java/bin:$PATH
+[ -x ~/local/py/bin/activate ] && . ~/local/py/bin/activate
 [ -d ~/bin ] && export PATH=~/bin:$PATH
-
-# Insert local python lib into PYTHONPATH
-[ -d ~/lib/python ] && \
-    export PYTHONPATH=~/lib/python:/usr/local/bin
-
+[ -d ~/bin/${HOSTNAME} ] && export PATH=~/bin/${HOSTNAME}:$PATH
+[ -f ~/.nestrc ] && . ~/.nestrc

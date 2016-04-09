@@ -1,0 +1,10 @@
+# for "ls" variants with coreutils via homebrew
+if type -p gdircolors > /dev/null; then
+	eval `gdircolors ~/rc/dir_colors`
+	LS_OPTIONS=(--classify --color=auto)
+	alias l='command gls ${LS_OPTIONS} -o --human-readable'
+	alias ls='command gls ${LS_OPTIONS}'
+	lt() {
+		command gls ${LS_OPTIONS} --color=always -ot --human-readable $* | head
+	}
+fi

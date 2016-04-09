@@ -3,14 +3,19 @@
 function set_window_title() {
   local title=$1
   case $TERM in
-      *xterm*|rxvt*) echo -ne "\033]0;${title}\007" ;;
-      screen*) echo -ne "\033_${title}\033\\" ;;
+    *xterm*|rxvt) print -Pn "\e]2;${prefix}:%~/\a" ;;
+    screen*) print -Pn "\e_${USER}@${prefix}:%~\e\\" ;;
   esac
 }
 
 # Contents of ~/.hostname_alias if it exists else FQDN
 function refresh_window_title() {
-  local host=$(hostname -f)
+  local host="%M"
   [ -r ~/.hostname_alias ] && host=$(< ~/.hostname_alias)
-  set_window_title "${USER}@${host}:${PWD/#$HOME/\~}"
+  set_window_title "${USER}@${host}:%~"
+}
+
+
+function chpwd() {
+  [[ -t 1 ]] && refresh_window_title
 }

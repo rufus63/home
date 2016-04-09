@@ -1,25 +1,5 @@
 # for interactive shells
 
-# Run ssh-agent if not already running. We kill it in zlogout. We test
-# the auth sock variable (rather than the agent PID) because we don't
-# want to clobber any variables that are set by agent forwarding.
-if [ -z "$SSH_AUTH_SOCK" ] || [ ! -r $SSH_AUTH_SOCK ]; then
-    eval `ssh-agent` >/dev/null
-    ssh-add > /dev/null 2>&1
-fi
-
-# Make a well-known softlink to the temporary socket so
-# that existing processes (in screen sessions)
-# can continue to authenticate
-# Commented out 04/29/2015, having trouble forwarding agent credentials
-# and discovered I have multiple agents running - so some child processes
-# probably have/had different SSH_AGENT_PID values that weren't
-# actually associated with the underlying socket they were talking to.
-#if [ "$SSH_AUTH_SOCK" != "$HOME/.ssh/auth_sock" ]; then
-#    ln -sf $SSH_AUTH_SOCK $HOME/.ssh/auth_sock
-#    export SSH_AUTH_SOCK=$HOME/.ssh/auth_sock
-#fi
-
 # make option and trap changes local to functions
 setopt LOCAL_OPTIONS LOCAL_TRAPS
 
@@ -42,94 +22,14 @@ alias history='fc -l 1'
 # remove redundant entries in path, cdpath, etc.
 typeset -U path cdpath manpath fpath mailpath
 
-# emacs editing
-#bindkey -e
-# vi editing
-bindkey -v
-
 # basic aliases
 alias vi=vim
-
-# Using hub? https://hub.github.com/
-if [ -x /usr/local/bin/hub ]; then
-  alias git=hub
-fi
-
-# Company/host specific setup
-if [ -r ~/.nestrc ]; then
-   . ~/.nestrc
-fi
-
-# allows "mmv *.c *.cpp", etc.
-alias mmv='noglob zmv -W'
-
-# for "ls" variants with coreutils via homebrew
-if type -p gdircolors > /dev/null; then
-	eval `gdircolors ~/rc/dir_colors`
-	LS_OPTIONS=(--classify --color=auto)
-	alias l='command gls ${LS_OPTIONS} -o --human-readable'
-	alias ls='command gls ${LS_OPTIONS}'
-	lt() {
-		command gls ${LS_OPTIONS} --color=always -ot --human-readable $* | head
-	}
-fi
 
 # bash-ism
 bindkey '^R' history-incremental-search-backward
 
 # expand history when space is typed
 bindkey ' ' magic-space
-
-# imitate the tcsh run-fg-editor function
-function run-fg-editor() {
-    # see if there are any jobs to run
-    local COUNT=$(jobs | grep + | wc -l)
-
-    # actually, the above doesn't work, because you can't pipe
-    # "jobs" into anything.  So fake it.  Maybe we'll come up
-    # with something better later.
-    COUNT=1
-
-    if (( COUNT == 0 )); then
-        # nothing to do
-    else
-        zle push-input
-        # note that I don't involve $EDITOR.  Sometimes a program (such
-        # as "p4 submit" invokes my editor and I want to be able to ^Z
-        # back to it too.
-        BUFFER="fg"
-        zle accept-line
-    fi
-}
-zle -N run-fg-editor
-bindkey '^Z' run-fg-editor
-
-set -o emacs # emacs command line edit
-
-# don't set cdpath because tab-completion uses it, which sucks:
-# cdpath=($cdpath $HOME $SRCROOT)
-
-# set the prompt, using yellow for successful commands and red (with exit
-# code) for unsuccessful commands.
-YELLOW_PROMPT='%{[33;1m%}'
-RED_PROMPT='%{[31;1m%}'
-NORMAL_PROMPT='%{[0m%}'
-
-PROMPT="${YELLOW_PROMPT}%m%#${NORMAL_PROMPT} "
-
-# put the exit code on the right.  I've disabled this because I never
-# looked at it anyway.  I think RPROMPT stands for "right prompt".
-# RPROMPT="%(?..${RED_PROMPT}(%?%)${NORMAL_PROMPT})"
-
-
-function realpath() {
-  python -c "import os,sys; print os.path.realpath(\"$1\")"
-}
-
-# a more useful version of run-help from the 'functions' directory
-alias run-help='so that unalias does not complain if not aliased'
-unalias run-help
-autoload run-help
 
 # other useful things to autoload
 autoload zmv	# better move
@@ -150,24 +50,17 @@ export VISUAL=vim
 #export VIMINIT="source $HOME/vimfiles/vimrc"
 #export GVIMINIT="source $HOME/vimfiles/gvimrc"
 
-# Title bar text and colors
-[ -r ~/rc/iterm2_helpers.sh ] && . ~/rc/iterm2_helpers.sh
+set -o emacs
 
-function chpwd() {
-  [[ -t 1 ]] || return
-  if [ -f ~/.hostname_alias ]; then
-    local prefix=$(< ~/.hostname_alias)
-  else
-    local prefix="%m" # machine name
-  fi
-  local branch=$(git symbolic-ref HEAD 2> /dev/null)
-  if [ -n "$branch" ]; then
-    prefix="(${branch##*/}) $prefix"
-  fi
-	case $TERM in
-		*xterm*|rxvt|(dt|k|E)term) print -Pn "\e]2;$prefix:%~\a" ;;
-		screen) print -Pn "\e_$prefix:%~\e\\" ;;
-	esac
-}
+[ -r ~/.nestrc ] && . ~/.nestrc
 
-cd .
+# For pj ("project jump") plugin
+[ -d ~/projects ] && PROJECT_PATHS=(~/projects)
+
+# For ssh-agent plugin
+ssh_key_names=($(egrep -l 'PRIVATE KEY' ~/.ssh/id_* 2> /dev/null | sed -e 's,.*/,,' | tr '\n' ' '))
+if [ -n "$ssh_key_names" ]; then
+  zstyle :omz:plugins:ssh-agent agent-forwarding yes
+  zstyle :omz:plugins:ssh-agent identities $ssh_key_names
+fi
+unset ssh_key_names
