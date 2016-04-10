@@ -53,33 +53,7 @@ ZSH_CUSTOM=~/rc/omz-custom
 plugins=(git mvn python tmux pj gradle virtualenv brew)
 [ -r ~/.ssh/id_rsa ] && plugins+=ssh-agent
 
-pypathdirs=(~/projects/mikekelley/src/main/python)
-
 # User configuration
-pathdirs=(
-  ~/bin
-  ~/local/py/bin
-  ~/projects/gcp/yes/google-cloud-sdk/bin
-  ~/projects/mikekelley/src/main/python/scripts
-  ~/projects/wulfcli/src/bin
-  ~/.gem/ruby/2.0.0/bin
-  /usr/local/git/current/bin
-  /usr/local/bin
-  /usr/bin
-  /bin
-  /usr/local/sbin
-  /usr/sbin
-  /sbin
-  /opt/X11/bin
-  /usr/X11R6/bin
-)
-
-path=($^pathdirs(N-/))
-# Don't know why I have to prepend this separately; variable eval is tricky :P
-[[ -d ~/bin/$HOSTNAME ]] && path=(~/bin/$HOSTNAME $path)
-
-export PYTHONPATH=$(echo ${pypathdirs[@]} | tr ' ' ':')
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -98,7 +72,9 @@ export PYTHONPATH=$(echo ${pypathdirs[@]} | tr ' ' ':')
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
+# More user configuration
 source ~/rc/zshrc
+
 source $ZSH/oh-my-zsh.sh
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,

@@ -15,5 +15,4 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 [ -d /usr/local/java/bin ] && export PATH=/usr/local/java/bin:$PATH
 [ -x ~/local/py/bin/activate ] && . ~/local/py/bin/activate
 [ -d ~/bin ] && export PATH=~/bin:$PATH
-[ -d ~/bin/${HOSTNAME} ] && export PATH=~/bin/${HOSTNAME}:$PATH
 [ -f ~/.nestrc ] && . ~/.nestrc

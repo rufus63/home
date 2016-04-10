@@ -50,9 +50,43 @@ export VISUAL=vim
 #export VIMINIT="source $HOME/vimfiles/vimrc"
 #export GVIMINIT="source $HOME/vimfiles/gvimrc"
 
+# IIRC Nose used PY_LOG_FORMAT and I've seen adopted it in my scripting
+export PY_LOG_FORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
+#export PY_LOG_LEVEL=warn
+
 set -o emacs
 
+system_path=(
+  /usr/local/git/current/bin
+  /usr/local/mysql/bin
+  /usr/local/bin
+  /usr/bin
+  /bin
+  /usr/local/sbin
+  /usr/sbin
+  /sbin
+)
+
+path=($^system_path(N-/))
+
+[ -x /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+
 [ -r ~/.nestrc ] && . ~/.nestrc
+
+# Company specific initialization
+[ -r ~/projects/$USER/rc.zsh ] && . ~/projects/$USER/rc.zsh
+
+if [ -r ~/local/py/bin/activate ] ; then
+  VIRTUAL_ENV_DISABLE_PROMPT=1 # Although not necessary because we recompute the prompt
+  . ~/local/py/bin/activate
+fi
+
+user_path=(
+  ~/bin
+  ~/bin/$(hostname -s)
+  ${path[@]}
+)
+path=($^user_path(N-/))
 
 # For pj ("project jump") plugin
 [ -d ~/projects ] && PROJECT_PATHS=(~/projects)
