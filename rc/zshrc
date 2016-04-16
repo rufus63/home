@@ -47,9 +47,6 @@ compctl -/ cd chdir dirs pushd
 export EDITOR=vim
 export VISUAL=vim
 
-#export VIMINIT="source $HOME/vimfiles/vimrc"
-#export GVIMINIT="source $HOME/vimfiles/gvimrc"
-
 # IIRC Nose used PY_LOG_FORMAT and I've seen adopted it in my scripting
 export PY_LOG_FORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
 #export PY_LOG_LEVEL=warn
@@ -71,9 +68,8 @@ path=($^system_path(N-/))
 
 [ -x /usr/libexec/java_home ] && export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
-[ -r ~/.nestrc ] && . ~/.nestrc
-
 # Company specific initialization
+[ -r ~/.nestrc ] && . ~/.nestrc
 [ -r ~/projects/$USER/rc.zsh ] && . ~/projects/$USER/rc.zsh
 
 if [ -r ~/local/py/bin/activate ] ; then
@@ -98,3 +94,5 @@ if [ -n "$ssh_key_names" ]; then
   zstyle :omz:plugins:ssh-agent identities $ssh_key_names
 fi
 unset ssh_key_names
+
+. ~/rc/zsh_functions

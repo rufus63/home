@@ -1,18 +1,10 @@
 # ZSH Git Prompt Plugin from:
-# http://github.com/rufus63/zsh-gcloud-prompt
+# http://github.com/rufus63/rc/omz-custom
 # Inspired by
 # http://github.com/olivierverdier/zsh-git-prompt
 
 __GCLOUD_PROMPT_DIR="${0:A:h}"
 __GCLOUD_ACTIVE_CONFIG_FILE=$HOME/.config/gcloud/active_config
-
-function preexec_update_gcloud_vars() {
-    case "$2" in
-        gcloud*)
-        __EXECUTED_GCLOUD_COMMAND=1
-        ;;
-    esac
-}
 
 function updated_gcloud_active_config() {
   local active_config=$(< $__GCLOUD_ACTIVE_CONFIG_FILE)
@@ -24,14 +16,12 @@ function updated_gcloud_active_config() {
 }
 
 function precmd_update_gcloud_vars() {
-    if [ -n "$__EXECUTED_GCLOUD_COMMAND" ] || updated_gcloud_active_config; then
+    if updated_gcloud_active_config; then
         update_current_gcloud_vars
-        unset __EXECUTED_GCLOUD_COMMAND
     fi
 }
 
 precmd_functions+=(precmd_update_gcloud_vars)
-preexec_functions+=(preexec_update_gcloud_vars)
 
 ## Function definitions
 function update_current_gcloud_vars() {

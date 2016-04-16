@@ -30,13 +30,6 @@ function resolve_ip() {
     host $1 | tail -1 | awk '{print $NF}'
 }
 
-# Contents of ~/.hostname_alias if it exists else FQDN
-function refresh_window_title() {
-  local host="%M"
-  [ -r ~/.hostname_alias ] && host=$(< ~/.hostname_alias)
-  set_window_title "${USER}@${host}:%~"
-}
-
 case $OSTYPE in
   darwin*) . ~/rc/darwin_functions;;
   linux*) . ~/rc/linux_functions;;
