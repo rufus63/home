@@ -22,7 +22,10 @@ ZSH_THEME="rufus63"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# This doesn't actually disable colors in this configuration, but it
+# does prevent ~/.oh-my-zsh/lib/theme-and-appearance.zsh from defining
+# an invalid alias on MacOS (ls='ls --color=tty').
+DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
