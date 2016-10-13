@@ -19,3 +19,9 @@ function refresh_window_title() {
 function chpwd() {
   [[ -t 1 ]] && refresh_window_title
 }
+
+function txssh() {
+  ssh -t $@ "tmux at || tmux new"
+}
+
+#compdef txssh=ssh

@@ -21,7 +21,7 @@ function precmd_update_gcloud_vars() {
     fi
 }
 
-precmd_functions+=(precmd_update_gcloud_vars)
+#precmd_functions+=(precmd_update_gcloud_vars)
 
 ## Function definitions
 function update_current_gcloud_vars() {

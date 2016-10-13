@@ -72,7 +72,8 @@ path=($^system_path(N-/))
 [ -r ~/.nestrc ] && . ~/.nestrc
 [ -r ~/projects/$USER/rc.zsh ] && . ~/projects/$USER/rc.zsh
 
-if [ -r ~/local/py/bin/activate ] ; then
+# Do not replace the virtual environment (for now anyway)
+if [ -z "$VIRTUAL_ENV" ] && [ -r ~/local/py/bin/activate ] ; then
   VIRTUAL_ENV_DISABLE_PROMPT=1 # Although not necessary because we recompute the prompt
   . ~/local/py/bin/activate
 fi

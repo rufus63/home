@@ -27,7 +27,12 @@ function realpath() {
 }
 
 function resolve_ip() {
-    host $1 | tail -1 | awk '{print $NF}'
+    local result=$(host $1 | tail -1 | awk '{print $NF}')
+    if [ "$result" = "3(NXDOMAIN)" ]; then
+      echo "Host $1 not found" 1>&2
+      return 1
+    fi
+    echo $result
 }
 
 case $OSTYPE in

@@ -13,6 +13,6 @@ fi
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 [ -d /usr/java/default/bin ] && export PATH=/usr/java/default/bin:$PATH
 [ -d /usr/local/java/bin ] && export PATH=/usr/local/java/bin:$PATH
-[ -x ~/local/py/bin/activate ] && . ~/local/py/bin/activate
+[ -z "$VIRTUAL_ENV" ] && [ -x ~/local/py/bin/activate ] && . ~/local/py/bin/activate
 [ -d ~/bin ] && export PATH=~/bin:$PATH
 [ -f ~/.nestrc ] && . ~/.nestrc

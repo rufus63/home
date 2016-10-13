@@ -1,1 +1,4 @@
+filetype indent on
 set tabstop=2 shiftwidth=2 expandtab autowrite
+
+autocmd FileType make set noexpandtab shiftwidth=4 tabstop=4
