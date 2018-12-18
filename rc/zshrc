@@ -25,6 +25,9 @@ typeset -U path cdpath manpath fpath mailpath
 # basic aliases
 alias vi=vim
 
+# Format, colorize and page JSON
+alias jqless='jq -C "$@" . | less -R'
+
 # bash-ism
 bindkey '^R' history-incremental-search-backward
 
@@ -72,15 +75,12 @@ path=($^system_path(N-/))
 [ -r ~/.nestrc ] && . ~/.nestrc
 [ -r ~/projects/$USER/rc.zsh ] && . ~/projects/$USER/rc.zsh
 
-# Do not replace the virtual environment (for now anyway)
-if [ -z "$VIRTUAL_ENV" ] && [ -r ~/local/py/bin/activate ] ; then
-  VIRTUAL_ENV_DISABLE_PROMPT=1 # Although not necessary because we recompute the prompt
-  . ~/local/py/bin/activate
-fi
+VIRTUAL_ENV_DISABLE_PROMPT=1 # Although not necessary because we recompute the prompt
 
 user_path=(
   ~/bin
   ~/bin/$(hostname -s)
+  ~/Library/Python/2.7/bin
   ${path[@]}
 )
 path=($^user_path(N-/))

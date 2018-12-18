@@ -6,7 +6,8 @@
 #fi
 
 if [ -n "$PS1" ]; then
-  PROMPT_COMMAND='PS1="$(date +'[%H:%M:%S]') $(fishy_cwd):bash-> "; refresh_window_title'
+  #PROMPT_COMMAND='PS1="$(date +'[%H:%M:%S]') $(fishy_cwd):bash-> "; refresh_window_title'
+  PROMPT_COMMAND='PS1="$(date +'[%H:%M:%S]') bash-> ";'
   set -o emacs
 fi
 
