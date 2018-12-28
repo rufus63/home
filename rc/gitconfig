@@ -1,11 +1,5 @@
-#!/bin/env python
-
-import os
-import sys
-
-CONFIG = '''
 [user]
-	email = {email}
+	email = mikekelley@google.com
 	name = Mike Kelley
 [color]
   ui = auto
@@ -24,7 +18,7 @@ CONFIG = '''
   whitespace = red reverse
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = {home}/.gitignore_global
+	excludesfile = /Users/mikekelley/.gitignore_global
 [alias]
   st = status
   ci = commit
@@ -46,35 +40,3 @@ CONFIG = '''
 	trustExitCode = true
 [push]
 	default = simple
-'''
-
-def parse_keywords(args):
-  kwargs = dict(home=os.path.expanduser("~"))
-  while args:
-    if args[0].startswith("-D"):
-      assignment = args.pop(0)[2:]
-      key, value = assignment.split("=", 1)
-      kwargs[key] = value
-    elif args[0] == "-i":
-      args.pop(0)
-      script = args.pop(0)
-      execfile(script, globals(), locals())
-  return args, kwargs
-
-def main():
-  args, kwargs = parse_keywords(sys.argv[1:])
-  if args:
-    raise ValueError("Unexpected argument(s)")
-  print CONFIG.strip().format(**kwargs)
-
-if __name__ == "__main__":
-  try:
-    main()
-  except KeyboardInterrupt:
-    pass
-  except KeyError, e:
-    print >> sys.stderr, "%s is undefined" % e
-    sys.exit(1)
-  except BaseException, e:
-    print >> sys.stderr, e
-    sys.exit(1)
