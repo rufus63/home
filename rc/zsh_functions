@@ -1,7 +1,7 @@
 . ~/rc/shell_functions
 
 function set_window_title() {
-  local title=$1
+  local title="$1"
   case $TERM in
     *xterm*|rxvt) print -Pn "\e]2;${title}\a" ;;
     screen*) print -Pn "\e_${title}\e\\" ;;
@@ -15,13 +15,6 @@ function refresh_window_title() {
   set_window_title "${USER}@${host}:%~"
 }
 
-
 function chpwd() {
   [[ -t 1 ]] && refresh_window_title
 }
-
-function txssh() {
-  ssh -t $@ "tmux at || tmux new"
-}
-
-#compdef txssh=ssh

@@ -2,16 +2,6 @@
 # Platform specific functions included at the end
 # (darwin_functions on Mac, linux_functions on linux).
 
-function rtmux() {
-  if (( $# != 1 )); then
-    echo "Usage: rtmux <hostname>" 2>&1
-    return 1
-  fi
-  local hostname=$1
-  ssh -At $hostname "tmux at || tmux new"
-  refresh_window_title
-}
-
 # From oh-my-zsh/themes/fishy-theme.zsh
 function fishy_cwd() {
   echo $(pwd | perl -pe "

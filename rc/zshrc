@@ -25,7 +25,7 @@ typeset -U path cdpath manpath fpath mailpath
 # basic aliases
 alias vi=vim
 
-# Format, colorize and page JSON
+# Format, colorize and paginate JSON
 alias jqless='jq -C "$@" . | less -R'
 
 # bash-ism
@@ -50,7 +50,7 @@ compctl -/ cd chdir dirs pushd
 export EDITOR=vim
 export VISUAL=vim
 
-# IIRC Nose used PY_LOG_FORMAT and I've seen adopted it in my scripting
+# IIRC Nose used PY_LOG_FORMAT and I've since adopted it in my scripting
 export PY_LOG_FORMAT="%(asctime)s %(levelname).1s %(process)5d %(threadName)s/%(name)s:%(filename)s:%(lineno)d: %(message)s"
 #export PY_LOG_LEVEL=warn
 
@@ -73,17 +73,19 @@ path=($^system_path(N-/))
 
 # Company specific initialization
 [ -r ~/.nestrc ] && . ~/.nestrc
-[ -r ~/projects/$USER/rc.zsh ] && . ~/projects/$USER/rc.zsh
 
 VIRTUAL_ENV_DISABLE_PROMPT=1 # Although not necessary because we recompute the prompt
 
 user_path=(
   ~/bin
   ~/bin/$(hostname -s)
+  ~/google-cloud-sdk/bin
   ~/Library/Python/2.7/bin
   ${path[@]}
 )
 path=($^user_path(N-/))
+
+[ -r ~/google-cloud-sdk/completion.zsh.inc ] && source ~/google-cloud-sdk/completion.zsh.inc
 
 # For pj ("project jump") plugin
 [ -d ~/projects ] && PROJECT_PATHS=(~/projects)
