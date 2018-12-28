@@ -5,8 +5,8 @@ import sys
 
 CONFIG = '''
 [user]
-  email = {email}
-  name = Mike Kelley
+	email = {email}
+	name = Mike Kelley
 [color]
   ui = auto
 [color "diff"]
@@ -24,6 +24,7 @@ CONFIG = '''
   whitespace = red reverse
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	excludesfile = {home}/.gitignore_global
 [alias]
   st = status
   ci = commit
@@ -33,13 +34,22 @@ CONFIG = '''
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   ls = ls-files
+  up = pull --rebase
 
   # Show files ignored by git:
   ign = ls-files -o -i --exclude-standard
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
 '''
 
 def parse_keywords(args):
-  kwargs = {}
+  kwargs = dict(home=os.path.expanduser("~"))
   while args:
     if args[0].startswith("-D"):
       assignment = args.pop(0)[2:]
