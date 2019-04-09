@@ -8,9 +8,9 @@ function set_window_title() {
   esac
 }
 
-# Contents of ~/.hostname_alias if it exists else FQDN
+# Contents of ~/.hostname_alias if it exists else first 2 parts of FQDN
 function refresh_window_title() {
-  local host=$(hostname -f)
+  local host=$(hostname -f | cut -d. -f1,2)
   [ -r ~/.hostname_alias ] && host=$(< ~/.hostname_alias)
   set_window_title "${USER}@${host}:%~"
 }
