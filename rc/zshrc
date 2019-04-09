@@ -91,7 +91,7 @@ path=($^user_path(N-/))
 [ -d ~/projects ] && PROJECT_PATHS=(~/projects)
 
 # For ssh-agent plugin
-ssh_key_names=($(egrep -l 'PRIVATE KEY' ~/.ssh/id_* 2> /dev/null | sed -e 's,.*/,,' | tr '\n' ' '))
+ssh_key_names=($(egrep -l 'PRIVATE KEY' "~/.ssh/id_*" 2> /dev/null | sed -e 's,.*/,,' | tr '\n' ' '))
 if [ -n "$ssh_key_names" ]; then
   zstyle :omz:plugins:ssh-agent agent-forwarding yes
   zstyle :omz:plugins:ssh-agent identities $ssh_key_names
