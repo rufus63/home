@@ -40,3 +40,35 @@
 	trustExitCode = true
 [push]
 	default = simple
+
+# Per https://g3doc.corp.google.com/company/teams/nest/devinfra/gob-getting-started.md?cl=head
+[http]
+    cookiefile = /usr/local/google/home/mikekelley/.gitcookies
+[credential]
+    helper = corpsso
+[url "persistent-https://nest-camera-internal.git.corp.google.com"]
+    insteadOf = https://nest-camera-internal.googlesource.com
+[url "persistent-https://eureka-internal.git.corp.google.com"]
+    insteadOf = https://eureka-internal.googlesource.com
+[url "persistent-https://libassistant-internal.git.corp.google.com"]
+    insteadOf = https://libassistant-internal.googlesource.com
+[url "persistent-https://team.git.corp.google.com"]
+    insteadOf = https://team.googlesource.com
+[url "persistent-https://nest-camera-external.git.corp.google.com"]
+    insteadOf = https://nest-camera-external.googlesource.com
+[url "persistent-https://nest-vega-external.git.corp.google.com"]
+    insteadOf = https://nest-vega-external.googlesource.com
+[url "persistent-https://nest-internal.git.corp.google.com"]
+    insteadOf = https://nest-internal.googlesource.com
+[url "persistent-https://android.git.corp.google.com"]
+    insteadOf = https://android.googlesource.com
+[url "persistent-https://android-review.git.corp.google.com"]
+    insteadOf = https://android-review.googlesource.com
+[url "persistent-https://googleplex-android.git.corp.google.com"]
+    insteadOf = https://googleplex-android.googlesource.com
+[url "persistent-https://googleplex-android-review.git.corp.google.com"]
+    insteadOf = https://googleplex-android-review.googlesource.com
+[url "persistent-https://partner-android.git.corp.google.com"]
+    insteadOf = https://partner-android.googlesource.com
+[url "persistent-https://partner-android-review.git.corp.google.com"]
+    insteadOf = https://partner-android-review.googlesource.com

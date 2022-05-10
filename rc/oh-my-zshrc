@@ -53,8 +53,9 @@ ZSH_CUSTOM=~/rc/omz-custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mvn python tmux pj gradle virtualenv brew docker pip kubectl)
-[ -r ~/.ssh/id_rsa ] && plugins+=ssh-agent
+plugins=(git python tmux gradle virtualenv)
+
+#[ -r ~/.ssh/id_rsa ] && plugins+=ssh-agent
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -76,7 +77,6 @@ plugins=(git mvn python tmux pj gradle virtualenv brew docker pip kubectl)
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # More user configuration
-source ~/rc/zshrc
 
 source $ZSH/oh-my-zsh.sh
 
