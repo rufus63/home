@@ -1,0 +1,4 @@
+[trainingwheels]
+prevent-verify=false
+[google]
+presubmit.default-rev=.
